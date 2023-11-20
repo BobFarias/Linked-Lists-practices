@@ -1,7 +1,7 @@
 import unittest
 import io
 from unittest.mock import patch
-from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList
+from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition
 
 
 class TestPrintElementsLinkedList(unittest.TestCase):
@@ -69,6 +69,55 @@ class TestinsertNodeTailLinkedList(unittest.TestCase):
                          "New node at the tail should have the provided data.")
         self.assertIsNone(current_node.next,
                           "Next node after the new node should be None.")
+
+
+class TestDeleteNodePosition(unittest.TestCase):
+    def test_empty_llist(self):
+        llist = LinkedList()
+
+        validation = deleteNodePosition(llist.head, None)
+        self.assertIsNone(
+            validation, "Need to return None because we are giving head and position None")
+
+        validation = deleteNodePosition(llist.head, 6)
+        self.assertIsNone(
+            validation, "Need to return None even if we are sending the Position")
+
+    def test_list_with_nodes_same_value(self):
+        position = 4
+        elements = [1, 2, 3, 4, 5, 5, 5, 5, 5, 50, 53, 5, 5, 6, 7, 44]
+        llist = create_linked_list(elements)
+        validation = deleteNodePosition(llist, position)
+
+        self.assertIsNotNone(
+            validation, "Should not be None because we have linked list and position")
+
+        current_node = validation
+        counter = 0
+        while current_node.next:
+            if current_node.data == 5 and counter <= position:
+                self.assertEqual(current_node.data, 5,
+                                 "The Node was not deleted with the a list with Nodes with the same values at the position 4.")
+            counter += 1
+            current_node = current_node.next
+
+    def test_with_position_out_range(self):
+        position = 1000
+        elements = [1, 2, 3, 4, 5]
+        llist = create_linked_list(elements)
+        validation = deleteNodePosition(llist, position)
+
+        self.assertIsNotNone(
+            validation, "Should not be None because we have linked list and position")
+
+        current_node = validation
+        while current_node.next:
+            current_node = current_node.next
+
+        self.assertEqual(
+            current_node.data, 5, "Any data should be deleted from the llist because the position is out of the range")
+        self.assertIsNone(
+            current_node.next, "The next node need to be None as long any Node was deleted")
 
 
 def create_linked_list(elements):

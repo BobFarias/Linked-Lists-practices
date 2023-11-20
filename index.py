@@ -87,6 +87,17 @@ def insertNodeTailLinkedList(head, data):
     return head
 
 
+def deleteNodePosition(head, position):
+    if head is None or position is None:
+        return head
+
+    if position == 0:
+        return head.next
+
+    head.next = deleteNodePosition(head.next, position - 1)
+    return head
+
+
 # First Usage of the implementation:
 if __name__ == "__main__":
     linked_list = LinkedList()
@@ -97,4 +108,5 @@ if __name__ == "__main__":
     linked_list.append(4)
 
     # printElementsLinkedList(linked_list.head)
-    insertNodeTailLinkedList(linked_list.head, 200)
+    # insertNodeTailLinkedList(linked_list.head, 200)
+    deleteNodePosition(linked_list.head, 2)
