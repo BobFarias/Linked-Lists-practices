@@ -98,15 +98,40 @@ def deleteNodePosition(head, position):
     return head
 
 
+def compareTwoLinkedLists(llist1, llist2):
+    if llist1 is None or llist2 is None:
+        return None
+
+    equal_lists = 1
+
+    while llist1:
+        if llist1.data != llist2.data or llist2.next is None and llist1.next is not None:
+            equal_lists = 0
+            break
+
+        llist1 = llist1.next
+        llist2 = llist2.next
+
+    return equal_lists
+
+
 # First Usage of the implementation:
 if __name__ == "__main__":
     linked_list = LinkedList()
+    linked_list2 = LinkedList()
 
     linked_list.append(1)
     linked_list.append(2)
     linked_list.append(3)
     linked_list.append(4)
 
+    linked_list2.append(1)
+    linked_list2.append(2)
+    linked_list2.append(3)
+    linked_list2.append(5)
+    linked_list2.append(9)
+
     # printElementsLinkedList(linked_list.head)
     # insertNodeTailLinkedList(linked_list.head, 200)
-    deleteNodePosition(linked_list.head, 2)
+    # deleteNodePosition(linked_list.head, 2)
+    compareTwoLinkedLists(linked_list.head, linked_list2.head)

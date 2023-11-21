@@ -1,7 +1,7 @@
 import unittest
 import io
 from unittest.mock import patch
-from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition
+from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists
 
 
 class TestPrintElementsLinkedList(unittest.TestCase):
@@ -118,6 +118,51 @@ class TestDeleteNodePosition(unittest.TestCase):
             current_node.data, 5, "Any data should be deleted from the llist because the position is out of the range")
         self.assertIsNone(
             current_node.next, "The next node need to be None as long any Node was deleted")
+
+
+class TestCompareTwoLinkedLists(unittest.TestCase):
+    def test_empty_lists(self):
+        llist1 = LinkedList()
+        llist2 = LinkedList()
+
+        validation1 = compareTwoLinkedLists(llist1.head, llist2.head)
+        self.assertIsNone(
+            validation1, "Need to return None because both llist are empty")
+
+        elements = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        llist1 = create_linked_list(elements)
+        validation2 = compareTwoLinkedLists(llist1, None)
+        validation3 = compareTwoLinkedLists(None, llist1)
+
+        self.assertIsNone(
+            validation2, "Need to return None because one llist is empty")
+        self.assertIsNone(
+            validation3, "Need to return None because one llist is empty")
+
+    def test_comparing_equal_lists(self):
+        elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        llist1 = create_linked_list(elements)
+        llist2 = create_linked_list(elements)
+
+        validation = compareTwoLinkedLists(llist1, llist2)
+
+        self.assertEqual(
+            validation, 1, "Need to return 1 because both lists are equal")
+        self.assertIsNotNone(
+            validation, "It cant be None because we are giving two valid linked lists")
+
+    def test_comparing_different_lists(self):
+        elements1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        elements2 = [1, 2, 3, 4, 5]
+        llist1 = create_linked_list(elements1)
+        llist2 = create_linked_list(elements2)
+
+        validation = compareTwoLinkedLists(llist1, llist2)
+
+        self.assertEqual(
+            validation, 0, "Need to return 0 because both lists are different")
+        self.assertIsNotNone(
+            validation, "It cant be None because we are giving two valid linked lists")
 
 
 def create_linked_list(elements):
