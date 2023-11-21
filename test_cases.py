@@ -1,7 +1,7 @@
 import unittest
 import io
 from unittest.mock import patch
-from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists
+from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists, getNodeSpecificPositionFromTail
 
 
 class TestPrintElementsLinkedList(unittest.TestCase):
@@ -163,6 +163,42 @@ class TestCompareTwoLinkedLists(unittest.TestCase):
             validation, 0, "Need to return 0 because both lists are different")
         self.assertIsNotNone(
             validation, "It cant be None because we are giving two valid linked lists")
+
+
+class TestGetNodeSpecificPositionFromTail(unittest.TestCase):
+    def test_empty_lists(self):
+        llist1 = LinkedList()
+
+        validation = getNodeSpecificPositionFromTail(llist1.head, None)
+        self.assertIsNone(
+            validation, "Need to return None because llist is empty and position as None")
+
+        validation = getNodeSpecificPositionFromTail(llist1.head, 5)
+        self.assertIsNone(
+            validation, "Need to return None because llist is empty ")
+
+    def test_valid_lists_different_positions(self):
+        elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        position = 2
+        llist = create_linked_list(elements)
+
+        validation = getNodeSpecificPositionFromTail(llist, position)
+
+        self.assertEqual(
+            validation, 8, "Need to return 8 as the correct value from the Node related to the position coming from the tail")
+        self.assertIsNotNone(
+            validation, "It cant be None because we are giving valid linked list and position")
+
+    #  Position out of the range
+    def test_position_out_of_range(self):
+        elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        position = 100
+        llist = create_linked_list(elements)
+
+        validation = getNodeSpecificPositionFromTail(llist, position)
+
+        self.assertEqual(
+            validation, None, "Need to return None because there is no value for on the linked list related to the position")
 
 
 def create_linked_list(elements):

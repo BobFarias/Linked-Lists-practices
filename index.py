@@ -115,6 +115,26 @@ def compareTwoLinkedLists(llist1, llist2):
     return equal_lists
 
 
+def getNodeSpecificPositionFromTail(llist, positionFromTail):
+    if llist is None or positionFromTail is None:
+        return llist
+
+    pointer_node = llist
+
+    while llist.next:
+        llist = llist.next
+
+        if positionFromTail == 0:
+            pointer_node = pointer_node.next
+        else:
+            positionFromTail -= 1
+
+    if positionFromTail > 0:
+        return None
+
+    return pointer_node.data
+
+
 # First Usage of the implementation:
 if __name__ == "__main__":
     linked_list = LinkedList()
@@ -134,4 +154,5 @@ if __name__ == "__main__":
     # printElementsLinkedList(linked_list.head)
     # insertNodeTailLinkedList(linked_list.head, 200)
     # deleteNodePosition(linked_list.head, 2)
-    compareTwoLinkedLists(linked_list.head, linked_list2.head)
+    # compareTwoLinkedLists(linked_list.head, linked_list2.head)
+    getNodeSpecificPositionFromTail(linked_list.head, 2)
