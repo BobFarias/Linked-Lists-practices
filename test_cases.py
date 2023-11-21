@@ -1,7 +1,7 @@
 import unittest
 import io
 from unittest.mock import patch
-from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists, getNodeSpecificPositionFromTail
+from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists, getNodeSpecificPositionFromTail, insertNodeAtPosition
 
 
 class TestPrintElementsLinkedList(unittest.TestCase):
@@ -199,6 +199,51 @@ class TestGetNodeSpecificPositionFromTail(unittest.TestCase):
 
         self.assertEqual(
             validation, None, "Need to return None because there is no value for on the linked list related to the position")
+
+
+class TestInsertNodeAtPosition(unittest.TestCase):
+    def test_empty_lists(self):
+        llist1 = LinkedList()
+
+        validation = insertNodeAtPosition(llist1.head, None, None)
+        self.assertIsNone(
+            validation, "Need to return None because all the parameters are None")
+
+        validation = insertNodeAtPosition(llist1.head, 5, 2)
+        self.assertIsNone(
+            validation, "Need to return None because llist is empty ")
+
+        validation = insertNodeAtPosition(llist1.head, 5, None)
+        self.assertIsNone(
+            validation, "Need to return None because position is empty ")
+
+        validation = insertNodeAtPosition(llist1.head, None, 2)
+        self.assertIsNone(
+            validation, "Need to return None because data is empty ")
+
+    def test_valid_lists_different_values_positions(self):
+        elements = [1, 2, 3, 4, 5, 6]
+        position = 2
+        data = 500
+        llist = create_linked_list(elements)
+
+        validation = insertNodeAtPosition(llist, data, position)
+
+        self.assertIsNotNone(
+            validation, "It cant be None because we are giving valid linked list, position and data")
+
+        counter = 0
+        current_node = validation
+        while current_node.next:
+            if counter == position:
+                self.assertEqual(
+                    current_node.data, 500, "The value need to be 500 because the new node with 500 as a value will be on the position 2.")
+
+            counter += 1
+            current_node = current_node.next
+
+        self.assertIsNone(
+            current_node.next, "The next node need to be None as long any Node")
 
 
 def create_linked_list(elements):

@@ -74,7 +74,7 @@ def insertNodeTailLinkedList(head, data):
         new_node = Node(data or 0)
         return new_node
 
-    # Iterative mode
+    #  Iterative mode
     #  current_node here is necessary:
     #  to preserve the reference to the original head of the linked list
     #  after the loop, head is still pointing to the first node.
@@ -135,6 +135,24 @@ def getNodeSpecificPositionFromTail(llist, positionFromTail):
     return pointer_node.data
 
 
+def insertNodeAtPosition(llist, data, position):
+    if data is None or position is None or llist is None:
+        return None
+
+    if llist.next is None:
+        return llist
+
+    if position == 1:
+        new_node = Node(data)
+        new_node.next = llist.next
+        llist.next = new_node
+        return llist
+
+    llist.next = insertNodeAtPosition(llist.next, data, position - 1)
+
+    return llist
+
+
 # First Usage of the implementation:
 if __name__ == "__main__":
     linked_list = LinkedList()
@@ -155,4 +173,5 @@ if __name__ == "__main__":
     # insertNodeTailLinkedList(linked_list.head, 200)
     # deleteNodePosition(linked_list.head, 2)
     # compareTwoLinkedLists(linked_list.head, linked_list2.head)
-    getNodeSpecificPositionFromTail(linked_list.head, 2)
+    # getNodeSpecificPositionFromTail(linked_list.head, 2)
+    insertNodeAtPosition(linked_list.head, 50, 2)
