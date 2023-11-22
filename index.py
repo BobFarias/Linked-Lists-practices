@@ -153,6 +153,27 @@ def insertNodeAtPosition(llist, data, position):
     return llist
 
 
+def mergeTwoSortedLinkedLists(head1, head2):
+    if head1 is None and head2 is None:
+        return None
+
+    if head1 is None:
+        return head2
+
+    if head2 is None:
+        return head1
+
+    current_node = None
+    if head1.data < head2.data:
+        current_node = head1
+        current_node.next = mergeTwoSortedLinkedLists(head1.next, head2)
+    else:
+        current_node = head2
+        current_node.next = mergeTwoSortedLinkedLists(head1, head2.next)
+
+    return current_node
+
+
 # First Usage of the implementation:
 if __name__ == "__main__":
     linked_list = LinkedList()

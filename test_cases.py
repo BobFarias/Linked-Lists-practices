@@ -1,7 +1,7 @@
 import unittest
 import io
 from unittest.mock import patch
-from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists, getNodeSpecificPositionFromTail, insertNodeAtPosition
+from index import Node, LinkedList, printElementsLinkedList, insertNodeTailLinkedList, deleteNodePosition, compareTwoLinkedLists, getNodeSpecificPositionFromTail, insertNodeAtPosition, mergeTwoSortedLinkedLists
 
 
 class TestPrintElementsLinkedList(unittest.TestCase):
@@ -244,6 +244,51 @@ class TestInsertNodeAtPosition(unittest.TestCase):
 
         self.assertIsNone(
             current_node.next, "The next node need to be None as long any Node")
+
+
+class TestMergeTwoSortedLinkedList(unittest.TestCase):
+    def test_empty_list(self):
+        llist1 = LinkedList()
+        llist2 = LinkedList()
+
+        validation = mergeTwoSortedLinkedLists(llist1.head, llist2.head)
+
+        self.assertIsNone(
+            validation, "Need to return None because all the parameters are None")
+
+        elements = [1, 2, 3, 4, 5, 6]
+        llist1 = create_linked_list(elements)
+        validation = mergeTwoSortedLinkedLists(llist1, llist2.head)
+
+        self.assertEqual(
+            validation, llist1, "Need to return llist1 because the second linked list is None")
+
+        validation = mergeTwoSortedLinkedLists(llist2.head, llist1)
+
+        self.assertEqual(
+            validation, llist1, "Need to return llist1 because the first linked list is None")
+
+    def test_return_unique_list(self):
+        elements1 = [1, 2, 3]
+        elements2 = [3, 4]
+
+        elements_result = [1, 2, 3, 3, 4]
+        result_expected = create_linked_list(elements_result)
+
+        llist1 = create_linked_list(elements1)
+        llist2 = create_linked_list(elements2)
+
+        validation = mergeTwoSortedLinkedLists(llist1, llist2)
+
+        self.assertIsNotNone(
+            validation, "Needs to return a valid linked list as a response because we are giving 2 valid llist")
+
+        current_node = validation
+        while current_node:
+            self.assertEqual(current_node.data, result_expected.data,
+                             "The final result is not matching with the expected result, please check again your final response.")
+            current_node = current_node.next
+            result_expected = result_expected.next
 
 
 def create_linked_list(elements):
